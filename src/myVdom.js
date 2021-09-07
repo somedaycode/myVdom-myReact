@@ -34,8 +34,7 @@ const changed = (node1, node2) =>
   node1.attributes !== node2.attributes ||
   node1.nodeName !== node2.nodeName;
 
-let isSaved = false;
-function updateDom($parent, newNode, oldNode, index = 0) {
+function updateDom($parent, newNode, oldNode, index = 0, isSaved = false) {
   if (isSaved === false) {
     DOM.setTree(newNode);
     isSaved = true;
@@ -65,7 +64,8 @@ function updateDom($parent, newNode, oldNode, index = 0) {
       $parent.childNodes[index],
       newNode.children[i],
       oldNode.children[i],
-      i
+      i,
+      isSaved
     );
   }
 }
@@ -81,7 +81,5 @@ function updateAttributes(target, newProps, oldProps) {
     target.removeAttribute(attr);
   }
 }
-
-function diff($target) {}
 
 export { h, updateDom, DOM };
