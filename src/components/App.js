@@ -9,9 +9,8 @@ export default function App() {
   const { addEvent } = eventHandler;
 
   function handleClick(e) {
-    if (e.target.classList.contains('addBtn')) {
-      setTodo([...todos, `itme${todos.length + 1}`]);
-    }
+    if (!e.target.closest('.addBtn')) return;
+    setTodo([...todos, `itme${todos.length + 1}`]);
   }
 
   addEvent('click', handleClick);
