@@ -5,7 +5,7 @@ const $root = document.querySelector('#app');
 
 const render = () => {
   const prevDOM = DOM.getTree();
-  const currentDOM = App($root);
+  const currentDOM = App({ $target: $root });
   updateDom($root, currentDOM, prevDOM);
 };
 
