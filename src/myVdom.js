@@ -8,12 +8,16 @@ const DOM = (() => {
   };
 })();
 
-function h(nodeName, attributes, ...children) {
-  return { nodeName, attributes, children };
+// function h(nodeName, attributes, ...children) {
+//   return { nodeName, attributes, children };
+// }
+
+function h(nodeName, attributes, events, ...children) {
+  return { nodeName, attributes, events, children };
 }
 
 function renderNode(vNode) {
-  const { nodeName, attributes, children } = vNode;
+  const { nodeName, attributes, events, children } = vNode;
 
   if (typeof vNode === 'string') return document.createTextNode(vNode);
 
@@ -21,6 +25,13 @@ function renderNode(vNode) {
 
   for (let key in attributes) {
     $el.setAttribute(key, attributes[key]);
+  }
+
+  if (events) {
+    events.forEach((event) => {
+      const { key, handler } = event;
+      $el.addEventListener(key, handler);
+    });
   }
 
   (children || []).forEach((child) => $el.appendChild(renderNode(child)));
