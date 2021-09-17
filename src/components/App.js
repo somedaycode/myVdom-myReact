@@ -1,11 +1,11 @@
-import { eventHandler } from '../index.js';
 import myReact from '../myReact.js';
 import { h } from '../myVdom.js';
+import List from './List.js';
+import OtherList from './OtherList.js';
 
 export default function App({ $target }) {
   const [todos, setTodo] = myReact.useState('todo')(['item']);
   const [value, setValue] = myReact.useState('inputValue')('');
-  const { addEvent } = eventHandler;
 
   setTimeout(() => {
     const $input = $target.querySelector('.todo__input');
@@ -21,22 +21,27 @@ export default function App({ $target }) {
     if (!e.target.closest('.addBtn')) return;
     const text = value;
     setTodo([...todos, text]);
-    console.log(todos);
   }
 
   const handleFoucs = (e) => {
     setValue(e.target.value);
   };
 
-  addEvent('click', '.addBtn', handleClick);
-  addEvent('keyup', '.todo__input', handleFoucs);
-
   return h(
     'h1',
     { class: 'title' },
+    null,
     'TODO TEST',
-    h('ul', null, ...todos.map((todo) => List(todo))),
-    h('input', { class: 'todo__input', value }),
-    h('button', { class: 'addBtn' }, '추가')
+    h('ul', null, null, ...todos.map((todo) => List(todo))),
+    h('input', { class: 'todo__input', value }, [
+      { key: 'keyup', handler: (e) => handleFoucs(e) },
+    ]),
+    h(
+      'button',
+      { class: 'addBtn' },
+      [{ key: 'click', handler: (e) => handleClick(e) }],
+      '추가'
+    ),
+    h('div', null, null, OtherList())
   );
 }
